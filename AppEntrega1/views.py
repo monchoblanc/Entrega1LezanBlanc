@@ -64,6 +64,21 @@ def clienteFormulario(request):
         form=ClienteForm() 
     return render(request, 'AppEntrega1/clienteFormulario.html', {'form':form})
 
+#ahora el formulario de busqueda
+def busquedaCliente(request):
+    return render(request, 'AppEntrega1/busquedaCliente.html')
+
+def buscar(request):
+    if request.GET['nombre']: #ie si hay algo.
+        nombre= request.GET['nombre']
+        clientes=Cliente.objects.filter(nombre= nombre)#filtra todos los clientes con el request
+        respuesta= f'estoy buscando los clientes con el nombre:{cliente}'
+        return render(request, 'AppEntrega1/resultadosBusqueda.html', {'clientes':clientes})
+    else:
+        return render(request, 'AppEntrega1/busquedaCliente.html', {'error':'no se ingreso un cliente'})
+
+
+
 # dejo estas vistas viejas como comentario por si las necesito. 
 '''def bodega(self):
     bodega=Bodega(nombre='Santa Julia', email= santajulia@santajulia.com)
