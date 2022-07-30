@@ -18,6 +18,7 @@ from django.urls import path, include
 
 
 urlpatterns = [
+    path('', include('accounts.urls')), #poner la vista home de BLOG-pages, cuando esté, para q sea la ruta base
     path('admin/', admin.site.urls),
     path('AppEntrega1/', include('AppEntrega1.urls')),
     path('accounts/', include('accounts.urls')),

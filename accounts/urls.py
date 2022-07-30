@@ -8,4 +8,5 @@ urlpatterns = [
     path('signup/', register, name='signup'), #ojo notar la vista es register, no signup. por si pincha.
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('profile/', editarPerfil, name='editarPerfil'),
+    path('usuario/', usuario, name='usuario'),
 ]

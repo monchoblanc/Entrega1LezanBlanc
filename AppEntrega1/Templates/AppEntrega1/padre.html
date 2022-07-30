@@ -26,6 +26,7 @@
                 <a class="btn btn-primary" href="{% url 'cliente' %}">Clientes</a>
                 {% if not request.user.is_authenticated %}
                 <a class="btn btn-warning" href="{% url 'login' %}">LOGIN</a>
+                <a class="btn btn-success" href="{% url 'signup' %}">SIGN UP</a>
                 {% else %}
                 <P>HOLA {{ request.user.username }}</P>
                 <a class="btn btn-danger" href="{% url 'logout' %}">LOGOUT</a>

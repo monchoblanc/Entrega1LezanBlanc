@@ -23,3 +23,12 @@ class UserEditForm(UserCreationForm):
         model=User
         fields=['username','email','password1','password2']
         help_texts={k:'' for k in fields}
+
+#formulario para usuarios:
+class UsuariosForm(forms.Form):
+    usuario= forms.CharField(max_length=50) #lo tengo q linkear al username?
+    contrasena= forms.CharField(max_length=50) #no hay q poner ya el campo de password?
+    email= forms.EmailField()
+    #imagen=models.ImageField() #va con label?como el avatar? on con ForeignKey? lo dejo asi xq me pide instalar Pillow...
+    descripcion= forms.CharField() #no me dejaba q sea TextField para forms....
+    link= forms.URLField(max_length=200)

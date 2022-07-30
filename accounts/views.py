@@ -12,9 +12,12 @@ from django.contrib.auth.decorators import login_required
 def inicio(request):   
     return render(request, 'accounts/inicio.html')
 
+def usuario(request):
+    return render(request, 'accounts/usuario.html')
 
 #login. 
 def login_request(request):
+    #aagregar q si ya estoy logueado no entre??, muestre cartel"ya estas logueado", y me mande a donde estaba.(igual el boton ya esto ok login/logout)
     if request.method=='POST':
         form= AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -34,6 +37,7 @@ def login_request(request):
 
 #registro
 def register(request):
+    #agregar q si ya estoy logueado no entre??
     if request.method=='POST':
         form=UserRegisterForm(request.POST)
         if form.is_valid():
