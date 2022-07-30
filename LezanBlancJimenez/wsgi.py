@@ -1,5 +1,5 @@
 """
-WSGI config for Entrega1LezanBlanc project.
+WSGI config for LezanBlancJimenez project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Entrega1LezanBlanc.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LezanBlancJimenez.settings')
 
 application = get_wsgi_application()

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Landing Page - Start Bootstrap Theme</title>
+        <title>BLOG de VINOS</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -21,9 +21,15 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'inicio' %}">INICIO</a>
-                <a class="btn btn-primary" href="{% url 'vino' %}">Vinos</a>
-                <a class="btn btn-primary" href="{% url 'bodega' %}">Bodegas</a>
+                <a class="btn btn-secondary" href="{% url 'vino' %}">Vinos</a>
+                <a class="btn btn-success" href="{% url 'bodega' %}">Bodegas</a>
                 <a class="btn btn-primary" href="{% url 'cliente' %}">Clientes</a>
+                {% if not request.user.is_authenticated %}
+                <a class="btn btn-warning" href="{% url 'login' %}">LOGIN</a>
+                {% else %}
+                <P>HOLA {{ request.user.username }}</P>
+                <a class="btn btn-danger" href="{% url 'logout' %}">LOGOUT</a>
+                {% endif %}
             </div>
         </nav>
         <!-- Masthead-->
