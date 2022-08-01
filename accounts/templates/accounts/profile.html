@@ -16,8 +16,12 @@
         </table>
         
         <input type='submit' value="Enviar">
+            <!--COMO METO ACA EL UsuarioForm-->
     </form>
-    <!--CREO Q ME FALTA EL {{ mensaje }} en algun lado???-->
+    <!--CFALTA {{ mensaje }} -->
+    <h1>{{ mensaje }}</h1>
+    <!--ESTe boton rompe?/...-->
+    <a  class="btn btn-danger" href="{% url 'eliminarUsuario' usuario %}">ELIMINAR MI USUARIO</a> 
 </body>
 
 {% endblock %}

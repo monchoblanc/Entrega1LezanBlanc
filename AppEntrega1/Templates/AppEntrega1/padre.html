@@ -30,6 +30,7 @@
                 {% else %}
                 <P>HOLA {{ request.user.username }}</P>
                 <a class="btn btn-danger" href="{% url 'logout' %}">LOGOUT</a>
+                <a class="btn btn-warning" href="{% url 'editarPerfil' %}">EDITAR MI PERFIL</a>
                 {% endif %}
             </div>
         </nav>
