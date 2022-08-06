@@ -19,6 +19,7 @@ class PerfilForm(forms.ModelForm):
         model = Perfil
         fields = ('imagen', 'descripcion', 'link') #OBS: no inlcuyo el user. 
         help_texts = {'link': ('debes poner http://'),}
+        #obs no le puse ningun label al field imagen. (ricardo le puso Picture al suyo)
 
 #form para crear Usuario: en consigna, solo pide los campos username, email, pswd. 
 class UserRegisterForm(UserCreationForm):

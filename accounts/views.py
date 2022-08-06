@@ -56,21 +56,35 @@ def register(request):
 def update_perfil(request): 
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user) #cambio UserForm por UserEditForm
-        perfil_form = PerfilForm(request.POST, instance=request.user.perfil) 
+        perfil_form = PerfilForm(request.POST, request.Files, instance=request.user.perfil) #le agregue aca el request.FILES. OJO VER XQ CAPAZ HAY Q AGREGARLO ANTES, EN EL UserCreation???
         #uso ambos forms a la vez y los valido:
         if user_form.is_valid() and perfil_form.is_valid():
             usuario=user_form.save()  #me guardo usuario asi lo paso por contexto..
             perfil_form.save()
             #messages.success(request, 'TU PERFIL HA SIDO ACTUALIZADO!') 
-            return render(request, 'accounts/inicio.html', {'usuario':usuario, 'mensaje':'TU USUARIO HA SIDO ACTUALIZADO'})#redirect('settings:profile')
+            return render(request, 'accounts/profile.html', {'usuario':usuario, 'mensaje':'TU USUARIO HA SIDO ACTUALIZADO','user_form': user_form, 'perfil_form': perfil_form})#redirect('settings:profile')
         else:
             messages.error(request, 'Fijate este error!:') #tmb podria pasarle return render(...mensage)
     else:
         user_form = UserEditForm(instance=request.user) #hace falta q vayan instanciados aca. es para q me los autorrellene?
         perfil_form = PerfilForm(instance=request.user.perfil)
-    return render(request, 'accounts/profile.html', {'user_form': user_form, 'perfil_form': perfil_form })
+    return render(request, 'accounts/update_perfil.html', {'user_form': user_form, 'perfil_form': perfil_form })
 
 #nueva vista para VER mi perfil:
+@login_required
+def ver_perfil(request):
+    user_form = UserEditForm(instance=request.user) 
+    perfil_form = PerfilForm(instance=request.user.perfil)
+    return render(request, 'accounts/profile.html',{'user_form': user_form, 'perfil_form': perfil_form } )
+
+#vista para eliminar usuario.
+@login_required
+def deleteUser(request, usuario):
+    usu=request.user 
+    usu.delete()
+    return render(request, 'accounts/inicio.html', {'mensaje':'Su usuario ha sido eliminado'}) #si se elimina, lo mando al inicio
+        #desp de eliminar, todabia me muestra el 'hola user'y el LOGOUT, MIPERFIL...?!!
+
 
 '''#rompe en perfil.save()NO LE SACO LA FICHA. 
 #intento crear una vista de registro q junte ambos forms!, el UserRegisterForm y el PerfilForm!:
@@ -103,10 +117,4 @@ def registerPerfil(request): #en realidad es mas un editPerfil........
     return render(request, 'accounts/registerPerfil.html', {'form': form, 'perfil_form': perfil_form}) # o lo mando a otro lade q /profile??'''
 
 
-#vista para eliminar usuario.
-@login_required
-def deleteUser(request, usuario):#esta vista ponerla como un BOTON en /profile.html 
-    usu=request.user 
-    usu.delete()
-    return render(request, 'accounts/signup.html', {'mensaje':'Su usuario ha sido eliminado'}) #si se elimina, lo mando al signup.
 

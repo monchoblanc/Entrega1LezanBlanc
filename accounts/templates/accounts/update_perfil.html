@@ -1,15 +1,14 @@
 {% extends 'AppEntrega1/padre.html' %}
 {% load static %}
 {% block titulo %}
-<h1>{{ mensaje }}</h1>
-<h2 class="mb-5">{{ user }}, TU PERFIL:</h2>
+<h2 class="mb-5">{{ user }}, aca podes completar o editar tu perfil</h2>
 {% endblock %}
 
 {% block que_cambia %} 
 <body>
   
-      
-    <form action="{% url 'ver_perfil' %}" method="POST">{% csrf_token %}
+      </form>
+    <form action="{% url 'update_perfil' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
     
         <table>
             
@@ -17,12 +16,12 @@
             {{ perfil_form.as_table }}
         </table>
         
-        
+        <input type='submit' value="ACTUALIZAR PERFIL">
     </form>
     <!--le dejo el  {{ mensaje }} por si me sirve en algun momento.-->
-    <a  class="btn btn-warning" href="{% url 'update_perfil' %}">EDITAR PERFIL</a> 
+    <h1>{{ mensaje }}</h1>
+    <a  class="btn btn-warning" href="{% url 'ver_perfil' %}">CANCELAR</a> 
     <a  class="btn btn-danger" href="{% url 'deleteUser' user %}">ELIMINAR MI USUARIO</a> 
-
 </body>
 
 {% endblock %}
