@@ -16,11 +16,11 @@ class Perfil(models.Model):
         return str(self.user) #+'  '+self.contrasena+'  '+str(self.email)+'  '+str(self.link) #ROMPE.....asiq lo dejo asi.
     
 #uso signals para linkear model User con Pefil:  
-'''@receiver(post_save, sender=User) #si creo un User me crea un Perfil.   
-def create_user_perfil(sender, instance, created, **kwargs): #era create_user_profile..
+@receiver(post_save, sender=User) #si creo un User me crea un Perfil.   
+def create_user_perfil(sender, instance, created, **kwargs): 
     if created:
         Perfil.objects.create(user=instance)
 
-@receiver(post_save, sender=User) #si guardo un User me guarda el Perfil
+'''@receiver(post_save, sender=User) #si guardo un User me guarda el Perfil
 def save_user_perfil(sender, instance, **kwargs): # uso save_user_profile. 
     instance.Perfil.save()   '''

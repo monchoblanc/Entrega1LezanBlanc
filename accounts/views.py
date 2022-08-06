@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-from django.contrib import messages #?? podria no usarlo pero ya esta...
+from django.contrib import messages #podria no usarlo pero ya esta...
 # Create your views here.
 
 #vista home de accounts: hace falta?
@@ -17,7 +17,7 @@ def inicio(request):
 
 #login. 
 def login_request(request):
-    #aagregar q si ya estoy logueado no entre??, muestre cartel"ya estas logueado", y me mande a donde estaba.(igual el boton ya esto ok login/logout)
+    #aagregar q si ya estoy logueado no entre??, muestre cartel"ya estas logueado", y me mande a donde estaba.(igual el boton ya esta ok login/logout)
     if request.method=='POST':
         form= AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -25,7 +25,7 @@ def login_request(request):
             clave= request.POST['password'] 
             user=authenticate(username=usuario, password=clave)
             if user is not None: #ie si hace match con alguno
-                login(request, user) #usa el login de django...?, xq el nuestro es login_request...
+                login(request, user) 
                 return render(request, 'accounts/inicio.html', {'form':form, 'mensaje':f'bienvenido  {usuario}'})
             else:
                 return render(request, 'accounts/login.html', {'form':form, 'mensaje':f'usuario o clave incorrecta'})    
@@ -35,15 +35,16 @@ def login_request(request):
         form=AuthenticationForm()
         return render(request, 'accounts/login.html', {'form': form}) #lo mando al login con el form vacio
 
-#registro. Obs: solo guarda en model User.
+#registro. Obs: guarda en model User, pero esta linkeado en models, con el post_save, ent guarda tmb en Perfil.
 def register(request):
     if request.method=='POST':
-        form=UserRegisterForm(request.POST)
-        if form.is_valid():
-            username=form.cleaned_data['username'] 
-            email=form.cleaned_data['email'] #medio al pedo me estoy guardando email y contrasena aca, xq no tengo q hacer authenticate.
-            contrasena=form.cleaned_data['password1'] 
-            form.save()
+        formulario=UserRegisterForm(request.POST) 
+        if formulario.is_valid():
+            username=formulario.cleaned_data['username'] 
+            email=formulario.cleaned_data['email'] #medio al pedo me estoy guardando email y contrasena aca?, xq no tengo q hacer authenticate.
+            contrasena=formulario.cleaned_data['password1'] 
+            formulario.save()
+            form= AuthenticationForm(request, data=request.POST) #agrego este aca, para q despues del signup, me use el form de login, instanciado para q llene ya el username.  
             return render(request, 'accounts/login.html', {'form':form, 'mensaje':f'usuario creado:{username} AHORA LOGUEATE!' })
     else:
         form=UserRegisterForm() 
@@ -52,11 +53,11 @@ def register(request):
 
 @login_required
 #@transaction.atomic. hace q se guarden ambos objetos o ninguno... (por si alguno falla, q el otro no se actualice)
-def update_perfil(request): #notar q no me pide 2 veces el pswd!, x usar el ModelForm, me parece mejor!.
+def update_perfil(request): 
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user) #cambio UserForm por UserEditForm
         perfil_form = PerfilForm(request.POST, instance=request.user.perfil) 
-        #uso ambos forms en la misma vista!:
+        #uso ambos forms a la vez y los valido:
         if user_form.is_valid() and perfil_form.is_valid():
             usuario=user_form.save()  #me guardo usuario asi lo paso por contexto..
             perfil_form.save()
@@ -65,9 +66,11 @@ def update_perfil(request): #notar q no me pide 2 veces el pswd!, x usar el Mode
         else:
             messages.error(request, 'Fijate este error!:') #tmb podria pasarle return render(...mensage)
     else:
-        user_form = UserEditForm(instance=request.user)
+        user_form = UserEditForm(instance=request.user) #hace falta q vayan instanciados aca. es para q me los autorrellene?
         perfil_form = PerfilForm(instance=request.user.perfil)
     return render(request, 'accounts/profile.html', {'user_form': user_form, 'perfil_form': perfil_form })
+
+#nueva vista para VER mi perfil:
 
 '''#rompe en perfil.save()NO LE SACO LA FICHA. 
 #intento crear una vista de registro q junte ambos forms!, el UserRegisterForm y el PerfilForm!:

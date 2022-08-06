@@ -8,17 +8,17 @@ from .models import Perfil
 
 #forms para Register(crea User), Login y Editar User:
 
-#uso ModelForm q es mas rapido. pero menos customizable....
+'''#uso ModelForm q es mas rapido. pero menos customizable....
 class UserForm(forms.ModelForm): #podria ser hijo de UserCreationForm tmb!
     class Meta:
         model = User
         fields = ('username', 'email', 'password') #OJO SI ROMPRE CAMBIAR userame a first_name... 
-        #labels={'username':_('usuario'), 'password':_('constrasena')}. IDEM CON HELPTEXTS..
+        #labels={'username':_('usuario'), 'password':_('constrasena')}. IDEM CON HELPTEXTS..'''
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
         fields = ('imagen', 'descripcion', 'link') #OBS: no inlcuyo el user. 
-
+        help_texts = {'link': ('debes poner http://'),}
 
 #form para crear Usuario: en consigna, solo pide los campos username, email, pswd. 
 class UserRegisterForm(UserCreationForm):
@@ -30,7 +30,7 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model=User
         fields=['username','email','password1','password2']
-        help_texts={k:'' for k in fields} #me pone vacios los help_texts en estos campos. 
+        help_texts={k:'campos obligatorios' for k in fields}  #igual me los esta dejando vacios...?
 
 #esta capaz no lo necesito:
 class UserEditForm(UserCreationForm):
@@ -41,7 +41,7 @@ class UserEditForm(UserCreationForm):
     class Meta:
         model=User
         fields=['username','email','password1','password2']
-        help_texts={k:'' for k in fields} #me pone vacios los help_texts en estos campos.
+        help_texts={k:'campos obligatorios' for k in fields} 
 
 '''#form para crear perfiles con los demas campos:       
 class ProfileCreationForm(UserRegisterForm): #o q sea hijo de UserCreationForm?

@@ -3,8 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin #para poder man
 from django.contrib.auth.models import User
 from .models import Perfil
 
-# Define an inline admin descriptor for Employee model
-# which acts a bit like a singleton
+# al final no estoy seguro si esto hacia falta...
 class PerfilInline(admin.StackedInline):
     model = Perfil
     can_delete = False
